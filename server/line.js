@@ -3,8 +3,8 @@
 // LINE_CHANNEL_SECRET for the webhook) in the environment; without them messages are only logged.
 import crypto from 'node:crypto';
 
-const token = () => process.env.LINE_CHANNEL_ACCESS_TOKEN || '';
-const secret = () => process.env.LINE_CHANNEL_SECRET || '';
+const token = () => (process.env.LINE_CHANNEL_ACCESS_TOKEN || '').trim();
+const secret = () => (process.env.LINE_CHANNEL_SECRET || '').trim();
 
 export const lineReady = () => !!token();
 export const webhookReady = () => !!(token() && secret());
