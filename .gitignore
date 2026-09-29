@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/
+.env
+# Windows-only npm workaround for this computer (see README); breaks npm on Linux hosts
+.npmrc
+.claude/
+# Original design export (not needed to run the app)
+design/
+*.zip

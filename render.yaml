@@ -1,0 +1,28 @@
+# Render Blueprint: Dashboard › New › Blueprint › pick this repository.
+# Values marked "sync: false" are asked for once when the Blueprint is created (they are secrets, never commit them).
+services:
+  - type: web
+    name: kanuengthueng
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Daily jobs (backup 03:00, LINE summary) and "today" on the server use Thai time.
+      - key: TZ
+        value: Asia/Bangkok
+      # Supabase › Connect › Session pooler connection string (with your database password filled in)
+      - key: DATABASE_URL
+        sync: false
+      # PIN staff type to open the app; also used to register a LINE chat for notifications
+      - key: ADMIN_PIN
+        sync: false
+      # LINE Developers › your Messaging API channel (leave empty until the LINE OA is ready)
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        sync: false
+      - key: LINE_CHANNEL_SECRET
+        sync: false
