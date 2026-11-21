@@ -1,15 +1,24 @@
 {
-  "name": "คะนึงถึงโฮมสเตย์",
+  "id": "/",
+  "name": "คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์",
   "short_name": "คะนึงถึง",
+  "description": "ระบบจัดการโฮมสเตย์ คะนึงถึง ห้วยกุ๊บกั๊บ — การจอง ปฏิทิน การเงิน และสรุปผล",
   "lang": "th",
-  "start_url": "/",
+  "dir": "ltr",
+  "start_url": "/today",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f3f2f2",
-  "theme_color": "#201e1d",
+  "orientation": "any",
+  "theme_color": "#2F4A3D",
+  "background_color": "#F3F1EB",
+  "categories": ["business", "productivity", "travel"],
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "จองใหม่", "url": "/today?new=1", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "ปฏิทิน", "url": "/calendar", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }

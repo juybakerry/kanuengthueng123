@@ -1,22 +1,43 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>คะนึงถึงโฮมสเตย์</title>
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <meta name="theme-color" content="#201e1d">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="คะนึงถึง">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
-</head>
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+<!doctype html>
+<html lang="th" data-theme="mist">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์</title>
+    <meta name="description" content="คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์ — โฮมสเตย์เล็ก ๆ สำหรับคนที่อยากหนีความวุ่นวายมาพักผ่อน · อ.แม่แตง จ.เชียงใหม่" />
+    <meta name="theme-color" content="#2F4A3D" />
+    <meta name="application-name" content="คะนึงถึง" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="คะนึงถึง" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
+    <meta property="og:title" content="คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์" />
+    <meta property="og:description" content="กองไฟ บทเพลง มิตรภาพ · ดูวันว่างและส่งคำขอจองได้ที่นี่" />
+    <meta property="og:image" content="/assets/mood-mist.jpg" />
+    <script>
+      // ใส่ธีมก่อนวาดหน้า เพื่อไม่ให้กระพริบ
+      try {
+        var p = localStorage.getItem('kt-theme') || 'auto';
+        var path = location.pathname;
+        var t = p;
+        if (p === 'auto') {
+          var h = new Date().getHours();
+          t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) || h < 6 || h >= 18 ? 'campfire' : 'mist';
+        }
+        if (path.indexOf('/review') === 0) t = 'campfire';
+        if (path.indexOf('/book') === 0 || path.indexOf('/pay') === 0) t = 'mist';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <noscript>กรุณาเปิด JavaScript เพื่อใช้งานแอปคะนึงถึง</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

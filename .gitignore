@@ -8,3 +8,7 @@ data/
 # Original design export (not needed to run the app)
 design/
 *.zip
+.secrets/
+.wrangler/
+.dev.vars
+backups/

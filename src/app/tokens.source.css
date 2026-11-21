@@ -1,0 +1,56 @@
+/* Kanuengthueng Homestay — design tokens (single source of truth, from Requirement Form v1.1 §13.1)
+   Extended with tokens the prototype also uses (marked "+"). */
+:root, [data-theme="mist"] {            /* โหมดหมอกเช้า (Light) */
+  --color-primary: #2F4A3D;             /* ป่าดอย Forest */
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #687550;           /* มอสภูเขา Moss */
+  --color-accent: #D9772B;              /* เปลวไฟ Campfire */
+  --color-accent-strong: #B85A1B;       /* ถ่านแดง Ember (hover/pressed of accent) */
+  --color-on-accent: #1F2320;
+  --color-tertiary: #844023;            /* ไม้กีตาร์ Guitar Wood */
+  --color-info: #5F7B7D;                /* ฟ้ารุ่ง Dawn Teal */
+  --color-highlight: #E9DDBA;           /* แสงรุ่ง Dawn Gold — "today" in calendars */
+  --color-bg: #F3F1EB;                  /* หมอกเช้า Mist */
+  --color-surface: #FFFFFF;
+  --color-surface-2: #DDE1DC;           /* เมฆเทา Fog — dividers, input fill, segmented track */
+  --color-text: #1F2320;                /* ถ่านไม้ Charcoal */
+  --color-text-muted: #5E625E;          /* หินดอย Stone */
+  --ok-text: #3F7A4A;                   /* + positive numbers / "paid" text */
+  --hero-fade: rgba(47, 74, 61, .82);   /* + bottom stop of hero photo gradient */
+  --nav-bg: rgba(255, 255, 255, .94);   /* + bottom nav / sticky action bars */
+
+  --status-unpaid: #B3412E;   /* ยังไม่ชำระ · white text · icon clock */
+  --status-deposit: #C98A12;  /* มัดจำ 50% · charcoal text · icon half-circle */
+  --status-paid: #3F7A4A;     /* ชำระครบ · white text · icon check */
+  --status-checkedin: #5F7B7D;/* กำลังพัก · white text · icon home */
+  --status-closed: #8A8F8B;   /* ปิดห้อง · charcoal text + 135° hatch · icon lock */
+  --hatch-closed: repeating-linear-gradient(135deg, #8A8F8B 0 5px, #A7ABA7 5px 10px);
+
+  --font-heading: "Mitr", sans-serif;              /* 500 */
+  --font-body: "IBM Plex Sans Thai", sans-serif;   /* 400 / 500 / 600, numbers use tabular-nums */
+  --font-hand: "Itim", cursive;                    /* splash, thank-you, document sign-off only */
+
+  --radius-sm: 8px;  --radius-md: 12px;  --radius-lg: 16px;  --radius-pill: 999px;
+  --shadow-soft: 0 4px 16px rgba(31, 35, 32, .08);
+  --shadow-fab: 0 8px 24px rgba(184, 90, 27, .35);
+  --space-unit: 8px;   /* scale: 4 8 12 16 24 32 48 */
+  --tap-min: 44px;
+  --motion-fast: 150ms;  --motion-base: 250ms;  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+[data-theme="campfire"] {               /* โหมดกองไฟ (Dark) */
+  --color-bg: #161311;                  /* ราตรี Night */
+  --color-surface: #2A2320;             /* ขี้เถ้า Ash */
+  --color-surface-2: #3A302B;
+  --color-text: #F3F1EB;
+  --color-text-muted: #B9B3A8;
+  --color-primary: #8FB89C;
+  --color-on-primary: #161311;
+  --color-secondary: #A9B48E;           /* + */
+  --color-accent: #E8893A;
+  --color-info: #8FB0B2;                /* + */
+  --color-highlight: #4A3E28;           /* + dark "today" tint */
+  --ok-text: #8FB89C;                   /* + */
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, .35);
+  --hero-fade: rgba(22, 19, 17, .9);
+  --nav-bg: rgba(42, 35, 32, .96);
+}

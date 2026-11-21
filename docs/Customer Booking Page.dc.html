@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Itim&family=Mitr:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F1EB;color:#1F2320;font-family:'IBM Plex Sans Thai',sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2F4A3D}a:hover{color:#B85A1B}
+input,button,textarea{font:inherit;color:inherit}
+input::placeholder,textarea::placeholder{color:#5E625E}
+@keyframes mistIn{from{opacity:0;transform:translateY(10px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+</style>
+</helmet>
+<div data-screen-label="11 หน้าจองออนไลน์ลูกค้า" style="font-size:16px;line-height:1.6">
+<header style="position:relative;min-height:88vh;display:flex;flex-direction:column;justify-content:space-between;padding:24px clamp(20px,5vw,64px) 56px;color:#FFFFFF;background:#2F4A3D url(assets/mood-mist.jpg) center/cover">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,19,17,.35) 0%,rgba(22,19,17,0) 35%,rgba(22,19,17,.75) 100%)"></div>
+<nav style="position:relative;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<img src="assets/logo-mark.png" alt="คะนึงถึง" style="width:44px;height:44px;border-radius:12px">
+<span style="font-family:Mitr;font-weight:500;font-size:20px;flex:1">คะนึงถึง</span>
+<a href="#story" style="color:#FFFFFF;text-decoration:none;font-size:15px;padding:8px 10px">เรื่องของเรา</a>
+<a href="#gallery" style="color:#FFFFFF;text-decoration:none;font-size:15px;padding:8px 10px">บรรยากาศ</a>
+<a href="#book" style="height:44px;padding:0 18px;border-radius:12px;background:#D9772B;color:#1F2320;text-decoration:none;font-weight:600;display:flex;align-items:center">ดูวันว่าง</a>
+</nav>
+<div style="position:relative;max-width:680px;display:flex;flex-direction:column;gap:14px">
+<div style="font-family:Itim;font-size:22px;opacity:.95">กองไฟ บทเพลง มิตรภาพ</div>
+<h1 style="margin:0;font-family:Mitr;font-weight:500;font-size:clamp(34px,6vw,60px);line-height:1.2;text-wrap:balance">คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์</h1>
+<p style="margin:0;font-size:clamp(17px,2vw,20px);max-width:520px;text-wrap:pretty">โฮมสเตย์เล็ก ๆ สำหรับคนที่อยากหนีความวุ่นวายมาพักผ่อน</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+<span style="padding:6px 14px;border-radius:999px;background:rgba(22,19,17,.4);backdrop-filter:blur(6px);font-size:15px">฿850 / คน / คืน · รวมอาหาร 1 มื้อ</span>
+<span style="padding:6px 14px;border-radius:999px;background:rgba(22,19,17,.4);backdrop-filter:blur(6px);font-size:15px">5 ห้อง · รับได้ 24 คน</span>
+<span style="padding:6px 14px;border-radius:999px;background:rgba(22,19,17,.4);backdrop-filter:blur(6px);font-size:15px">อ.แม่แตง จ.เชียงใหม่</span>
+</div>
+</div>
+</header>
+<section id="story" style="max-width:1120px;margin:0 auto;padding:72px clamp(20px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-family:Mitr;font-weight:500;font-size:clamp(26px,3.4vw,36px);line-height:1.3">เช้ามีทะเลหมอก ค่ำมีกองไฟ</h2>
+<p style="margin:0;color:#5E625E;text-wrap:pretty">บ้านไม้บนดอยที่ห้วยกุ๊บกั๊บ ตื่นมาเจอวิวภูเขาจากชานไม้ ตกค่ำนั่งล้อมวงรอบกองไฟ เล่นดนตรีโฟล์คกับเพื่อนใหม่ ราคานี้รวมที่พักและอาหาร 1 มื้อ เด็กคิดราคาเท่าผู้ใหญ่ มีรถรับส่งให้โดยไม่เก็บเพิ่ม</p>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:6px">
+<div style="padding:14px 16px;border-radius:16px;background:#FFFFFF;box-shadow:0 4px 16px rgba(31,35,32,.08)"><div style="font-size:14px;color:#5E625E">เช็คอิน / เช็คเอาท์</div><div style="font-weight:600;font-size:18px;font-variant-numeric:tabular-nums">14:00 / 11:00</div></div>
+<div style="padding:14px 16px;border-radius:16px;background:#FFFFFF;box-shadow:0 4px 16px rgba(31,35,32,.08)"><div style="font-size:14px;color:#5E625E">ห้องพัก</div><div style="font-weight:600;font-size:18px">ห้องเล็ก 4 · ห้องใหญ่ 1</div></div>
+</div>
+</div>
+<div style="border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#DDE1DC url(assets/mood-mountain-deck.jpg) center/cover"></div>
+</section>
+<section id="gallery" style="background:#161311;color:#F3F1EB;padding:72px clamp(20px,5vw,64px)">
+<div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font-family:Mitr;font-weight:500;font-size:clamp(26px,3.4vw,36px)">บรรยากาศที่คะนึงถึง</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px">
+<sc-for list="{{ gallery }}" as="g" hint-placeholder-count="6">
+<figure style="margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#2A2320"><img src="{{ g.src }}" alt="{{ g.label }}" style="width:100%;height:100%;object-fit:cover;display:block"><figcaption style="position:absolute;left:0;right:0;bottom:0;padding:24px 14px 10px;background:linear-gradient(180deg,rgba(22,19,17,0),rgba(22,19,17,.85));font-size:15px">{{ g.label }}</figcaption></figure>
+</sc-for>
+</div>
+</div>
+</section>
+<section id="book" style="max-width:1120px;margin:0 auto;padding:72px clamp(20px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:24px;align-items:start">
+<div style="background:#FFFFFF;border-radius:16px;box-shadow:0 4px 16px rgba(31,35,32,.08);padding:20px;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-family:Mitr;font-weight:500;font-size:26px">ดูวันว่าง</h2>
+<div style="display:flex;align-items:center;gap:8px"><button onClick="{{ prev }}" aria-label="เดือนก่อน" style="width:44px;height:44px;border:none;border-radius:12px;background:#F3F1EB;cursor:pointer;font-size:20px">‹</button><span style="flex:1;text-align:center;font-family:Mitr;font-weight:500;font-size:19px">{{ monthTitle }}</span><button onClick="{{ next }}" aria-label="เดือนถัดไป" style="width:44px;height:44px;border:none;border-radius:12px;background:#F3F1EB;cursor:pointer;font-size:20px">›</button></div>
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+<sc-for list="{{ dow }}" as="w" hint-placeholder-count="7"><div style="text-align:center;font-size:13px;color:#5E625E">{{ w.d }}</div></sc-for>
+<sc-for list="{{ cells }}" as="c" hint-placeholder-count="35"><button onClick="{{ c.onClick }}" style="height:56px;border:none;border-radius:10px;background:{{ c.bg }};color:{{ c.fg }};opacity:{{ c.op }};display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2;cursor:pointer;padding:0"><span style="font-weight:600;font-size:15px;font-variant-numeric:tabular-nums">{{ c.day }}</span><span style="font-size:12px;color:{{ c.subFg }}">{{ c.sub }}</span></button></sc-for>
+</div>
+<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:#5E625E"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#DDE1DC"></span>ว่าง (ตัวเลข = ที่ว่าง)</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#E9DDBA"></span>เหลือน้อย</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#B3412E"></span>เต็ม</span></div>
+</div>
+<div style="background:#FFFFFF;border-radius:16px;box-shadow:0 4px 16px rgba(31,35,32,.08);padding:20px;display:flex;flex-direction:column;gap:14px">
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-family:Mitr;font-weight:500;font-size:26px">ส่งคำขอจอง</h2>
+<div style="padding:12px 14px;border-radius:12px;background:#F3F1EB;font-weight:600">{{ rangeTxt }}</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<div style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">จำนวนคืน<div style="display:flex;align-items:center;gap:8px"><button onClick="{{ nDec }}" aria-label="ลด" style="width:44px;height:44px;border:1.5px solid #DDE1DC;border-radius:12px;background:transparent;cursor:pointer;font-size:20px">−</button><span style="flex:1;text-align:center;font-size:20px;font-variant-numeric:tabular-nums">{{ nights }}</span><button onClick="{{ nInc }}" aria-label="เพิ่ม" style="width:44px;height:44px;border:1.5px solid #DDE1DC;border-radius:12px;background:transparent;cursor:pointer;font-size:20px">+</button></div></div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">จำนวนคน<div style="display:flex;align-items:center;gap:8px"><button onClick="{{ pDec }}" aria-label="ลด" style="width:44px;height:44px;border:1.5px solid #DDE1DC;border-radius:12px;background:transparent;cursor:pointer;font-size:20px">−</button><span style="flex:1;text-align:center;font-size:20px;font-variant-numeric:tabular-nums">{{ people }}</span><button onClick="{{ pInc }}" aria-label="เพิ่ม" style="width:44px;height:44px;border:1.5px solid #DDE1DC;border-radius:12px;background:transparent;cursor:pointer;font-size:20px">+</button></div></div>
+</div>
+<sc-if value="{{ hasWarn }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:12px 14px;border-radius:12px;background:#B3412E;color:#FFFFFF;font-weight:600;font-size:15px">{{ warn }}</div></sc-if>
+<input value="{{ name }}" onChange="{{ onName }}" placeholder="ชื่อผู้จอง / ชื่อกลุ่ม" style="height:48px;border:none;border-radius:12px;background:#DDE1DC;padding:0 14px;outline:none;font-size:16px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+<input value="{{ phone }}" onChange="{{ onPhone }}" inputmode="tel" placeholder="เบอร์โทรศัพท์" style="height:48px;border:none;border-radius:12px;background:#DDE1DC;padding:0 14px;outline:none;font-size:16px">
+<input value="{{ line }}" onChange="{{ onLine }}" placeholder="LINE ID" style="height:48px;border:none;border-radius:12px;background:#DDE1DC;padding:0 14px;outline:none;font-size:16px">
+</div>
+<textarea value="{{ note }}" onChange="{{ onNote }}" rows="2" placeholder="อาหารที่แพ้ / ต้องการรถรับส่งจากที่ไหน (ไม่บังคับ)" style="border:none;border-radius:12px;background:#DDE1DC;padding:12px 14px;outline:none;font-size:16px;resize:none"></textarea>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:10px;border-top:1px solid #DDE1DC"><span style="color:#5E625E;font-size:15px">{{ calc }}</span><span style="font-weight:600;font-size:24px;font-variant-numeric:tabular-nums">{{ total }}</span></div>
+<button onClick="{{ onSubmit }}" style="height:52px;border:none;border-radius:12px;background:{{ submitBg }};color:{{ submitFg }};font-weight:600;font-size:17px;cursor:pointer">ส่งคำขอจอง</button>
+<div style="font-size:14px;color:#5E625E">มัดจำ 50% ภายใน 3 วันหลังยืนยัน (โอนธนาคาร / พร้อมเพย์) · ส่วนที่เหลือชำระวันเข้าพัก · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ 1 ครั้ง</div>
+</div>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:24px 8px;animation:mistIn 500ms cubic-bezier(.2,.8,.2,1)">
+<img src="assets/logo-mark.png" alt="" style="width:64px;height:64px;border-radius:16px">
+<div style="font-family:Itim;font-size:28px;line-height:1.35">ได้รับคำขอแล้วเน้อ</div>
+<div style="color:#5E625E;max-width:360px;text-wrap:pretty">{{ sentTxt }}</div>
+<button onClick="{{ onReset }}" style="height:48px;padding:0 18px;border:1.5px solid #2F4A3D;border-radius:12px;background:transparent;color:#2F4A3D;font-weight:600;cursor:pointer;margin-top:8px">ส่งคำขออีกครั้ง</button>
+</div>
+</sc-if>
+</div>
+</section>
+<footer style="background:#2F4A3D;color:#F3F1EB;padding:40px clamp(20px,5vw,64px)">
+<div style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:Mitr;font-weight:500;font-size:20px">คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์</span><span style="font-size:15px;opacity:.85">ห้วยกุ๊บกั๊บ อ.แม่แตง จ.เชียงใหม่</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;font-size:15px;opacity:.9"><span>Facebook: คะนึงถึง ห้วยกุ๊บกั๊บ โฮมสเตย์</span><span>Instagram: kanuengthueng</span></div>
+<span style="font-family:Itim;font-size:22px">ไว้มาพบกันใหม่เน้อ</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const TODAY='2026-11-21';
+const MTHF=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const MTH=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DOW=['อา','จ','อ','พ','พฤ','ศ','ส'];
+const USED={'2026-11-21':14,'2026-11-22':12,'2026-11-24':2,'2026-11-26':4,'2026-11-27':20,'2026-11-28':24,'2026-12-05':6,'2026-12-06':6,'2026-12-12':24,'2026-12-13':24,'2026-12-30':20,'2026-12-31':20};
+const toD=s=>new Date(s+'T00:00:00Z'),iso=d=>d.toISOString().slice(0,10);
+const add=(s,n)=>{const d=toD(s);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+const fD=s=>{const d=toD(s);return d.getUTCDate()+' '+MTH[d.getUTCMonth()]+' '+(d.getUTCFullYear()+543)};
+const free=d=>24-(USED[d]||0);
+class Component extends DCLogic {
+  state={ym:2026*12+10,inD:null,nights:1,people:2,name:'',phone:'',line:'',note:'',sent:false};
+  renderVals(){
+    const s=this.state,y=Math.floor(s.ym/12),m=s.ym%12,first=iso(new Date(Date.UTC(y,m,1))),dim=new Date(Date.UTC(y,m+1,0)).getUTCDate(),lead=toD(first).getUTCDay();
+    const range=s.inD?[...Array(s.nights)].map((_,i)=>add(s.inD,i)):[];
+    const cells=[];for(let i=0;i<lead;i++)cells.push({key:'b'+i,day:'',sub:'',bg:'transparent',fg:'transparent',subFg:'transparent',op:1,onClick:null});
+    for(let d=1;d<=dim;d++){const ds=iso(new Date(Date.UTC(y,m,d))),f=free(ds),past=ds<TODAY,sel=range.includes(ds);
+      cells.push({key:ds,day:d,sub:past?'':f===0?'เต็ม':String(f),bg:sel?'#2F4A3D':f===0?'#B3412E':f<=6?'#E9DDBA':'#F3F1EB',fg:sel||f===0?'#FFFFFF':'#1F2320',subFg:sel||f===0?'#FFFFFF':'#5E625E',op:past?.35:1,
+        onClick:past||f===0?null:()=>this.setState({inD:ds})});}
+    const minFree=range.length?Math.min(...range.map(free)):24;
+    const warn=s.inD&&s.people>minFree?(minFree===0?'มีบางคืนที่เต็มแล้ว ลองเลือกวันอื่นเน้อ':'ช่วงนี้รับได้อีก '+minFree+' คน ลองลดจำนวนคนหรือเลือกวันอื่น'):'';
+    const total=850*s.people*s.nights,valid=!!(s.inD&&!warn&&s.name.trim()&&s.phone.trim());
+    const inp=k=>e=>this.setState({[k]:e.target.value});
+    return {monthTitle:MTHF[m]+' '+(y+543),cells,dow:DOW.map((d,i)=>({key:i,d})),
+      prev:()=>this.setState(st=>({ym:Math.max(2026*12+10,st.ym-1)})),next:()=>this.setState(st=>({ym:st.ym+1})),
+      rangeTxt:s.inD?fD(s.inD)+' – '+fD(add(s.inD,s.nights))+' · '+s.nights+' คืน':'แตะวันเช็คอินในปฏิทิน',
+      nights:s.nights,people:s.people,nDec:()=>this.setState(st=>({nights:Math.max(1,st.nights-1)})),nInc:()=>this.setState(st=>({nights:Math.min(14,st.nights+1)})),
+      pDec:()=>this.setState(st=>({people:Math.max(1,st.people-1)})),pInc:()=>this.setState(st=>({people:Math.min(24,st.people+1)})),
+      warn,hasWarn:!!warn,name:s.name,phone:s.phone,line:s.line,note:s.note,onName:inp('name'),onPhone:inp('phone'),onLine:inp('line'),onNote:inp('note'),
+      calc:'฿850 × '+s.people+' คน × '+s.nights+' คืน',total:'฿'+total.toLocaleString('en-US'),
+      submitBg:valid?'#D9772B':'#DDE1DC',submitFg:valid?'#1F2320':'#5E625E',onSubmit:()=>{if(valid)this.setState({sent:true})},
+      sent:s.sent,notSent:!s.sent,sentTxt:s.inD?'คำขอ '+fD(s.inD)+' · '+s.people+' คน · '+s.nights+' คืน ส่งถึงเจ้าของแล้ว จะติดต่อกลับทาง LINE หรือโทรศัพท์เพื่อยืนยันและส่ง QR มัดจำให้':'',
+      onReset:()=>this.setState({sent:false,inD:null,name:'',phone:'',line:'',note:''}),
+      gallery:[['mood-mountain-deck.jpg','วิวภูเขาจากชานไม้'],['mood-mist.jpg','ทะเลหมอกยามเช้า'],['mood-peak-sky.jpg','ยอดดอยและท้องฟ้า'],['mood-campfire.jpg','กองไฟ บทเพลง มิตรภาพ'],['mood-folk-night.jpg','ค่ำคืนดนตรีโฟล์ครอบกองไฟ'],['mood-village.jpg','หมู่บ้านห้วยกุ๊บกั๊บ']].map(([f,l])=>({key:f,src:'assets/'+f,label:l}))};
+  }
+}
+</script>
+</body>
+</html>
