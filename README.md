@@ -99,11 +99,11 @@ node scripts/backup.mjs              # สำรองฐานข้อมู�
 
 ใช้ส่งสรุปแขกพรุ่งนี้ทุกเย็นเข้าแชทพนักงาน (ฟรี 300 ข้อความ/เดือน ใช้ราว 30–60) — การส่งเอกสารให้ลูกค้าใช้ปุ่มแชร์ของมือถือ ไม่ใช้โควต้า
 
-1. สร้าง LINE OA ที่ manager.line.biz แล้วเปิด Messaging API
-2. ที่ developers.line.biz คัดลอก Channel secret และออก Channel access token
-3. `npx wrangler secret put LINE_CHANNEL_SECRET` และ `npx wrangler secret put LINE_CHANNEL_ACCESS_TOKEN`
-4. ตั้ง Webhook URL เป็น `https://kanuengthueng.juybakerry.workers.dev/api/line/webhook` แล้วเปิด Use webhook
-5. ในแอป: ตั้งค่า › การแจ้งเตือน › ขอรหัสลงทะเบียนแชท แล้วพิมพ์ `ลงทะเบียน <รหัส>` ในแชท OA · พิมพ์ `พรุ่งนี้` เพื่อดูสรุปได้ทุกเมื่อ
+เชื่อมแล้วกับ OA **คะนึงถึงโฮมสเตย์ (@691oyluh)** (21 พ.ย. 2569) ถ้าต้องเปลี่ยนคีย์ใหม่:
+
+1. ใส่ Channel secret บรรทัดแรก และ Channel access token บรรทัดที่สอง ใน `.secrets/line.txt`
+2. `node scripts/connect-line.mjs` — ตั้งคีย์บนเซิร์ฟเวอร์ ตั้ง Webhook URL และทดสอบให้
+3. ในแอป: ตั้งค่า › การแจ้งเตือน › ขอรหัสลงทะเบียนแชท แล้วพิมพ์ `ลงทะเบียน <รหัส>` ในแชท OA · พิมพ์ `พรุ่งนี้` เพื่อดูสรุปได้ทุกเมื่อ
 
 ### Cloudflare Turnstile สำหรับหน้าจอง (ไม่บังคับ)
 
