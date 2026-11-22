@@ -161,7 +161,7 @@ export function BookingDetail({ id }: { id: string }) {
               </div>
             )}
             <div className="small muted">
-              {v.paid <= 0 ? `มัดจำ ${b.depositPct}% (${fmtBaht(v.deposit)}) ภายใน ${fmtDate(b.depositDueOn)}` : v.due > 0 ? `ส่วนที่เหลือชำระวันเข้าพัก ${fmtDate(b.checkIn)}` : 'ชำระครบแล้ว'} · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ {st.rescheduleLimit} ครั้ง
+              {v.paid <= 0 ? `มัดจำ ${fmtBaht(v.deposit)} ภายใน ${fmtDate(b.depositDueOn)}` : v.due > 0 ? `ส่วนที่เหลือชำระวันเข้าพัก ${fmtDate(b.checkIn)}` : 'ชำระครบแล้ว'} · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ {st.rescheduleLimit} ครั้ง
             </div>
             {v.payments.map((p) => (
               <div key={p.id} className="row divider" style={{ paddingTop: 10, alignItems: 'center' }}>
@@ -424,7 +424,7 @@ function QrSheet({ b, due, paid, deposit, onClose }: { b: Booking; due: number; 
     last.current = key;
     void qrDataUrl(payload, 480).then(setImg);
   }
-  const label = which === 'deposit' ? `ยอดมัดจำ ${b.depositPct}%` : 'ยอดคงเหลือ';
+  const label = which === 'deposit' ? 'ยอดมัดจำ' : 'ยอดคงเหลือ';
 
   async function send() {
     if (!img) return;

@@ -1,5 +1,5 @@
 /** ค่าที่คำนวณจากข้อมูล (ไม่เก็บซ้ำ) สำหรับหน้าจอ — สูตรเงินทั้งหมดเรียกจาก src/domain */
-import { depositOf, dueOf, guestsOf, paidOf, payStatusOf } from '../domain/pricing';
+import { bookingDeposit, dueOf, guestsOf, paidOf, payStatusOf } from '../domain/pricing';
 import { nightsOf } from '../domain/dates';
 import type { Booking, Dataset, PayStatus, Payment } from '../domain/types';
 
@@ -44,7 +44,7 @@ export function viewOf(b: Booking, payments: Payment[]): BookingView {
     nights: nightsOf(b.checkIn, b.checkOut).length,
     paid,
     due: dueOf(b.total, paid),
-    deposit: depositOf(b.total, b.depositPct),
+    deposit: bookingDeposit(b),
     pay,
     pill,
     payments: payments.filter((p) => p.bookingId === b.id && !p.deletedAt).sort((x, y) => x.paidOn.localeCompare(y.paidOn) || x.createdAt.localeCompare(y.createdAt)),

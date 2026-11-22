@@ -5,12 +5,15 @@ import { api, ApiError } from '../lib/api';
 import { Stepper } from '../app/ui';
 import { addDays, addMonths, dayOfWeek, daysInclusive, endOfMonth, fmtMonth, fmtRange, startOfMonth, TH_DAYS_SHORT, todayISO } from '../domain/dates';
 import { fmtBaht } from '../domain/money';
-import type { HomestayInfo } from '../domain/types';
+import type { DepositMode, HomestayInfo } from '../domain/types';
+import { depositRuleText } from '../domain/pricing';
 
 interface Info {
   homestay: HomestayInfo;
   pricePerPerson: number;
+  depositMode: DepositMode;
   depositPct: number;
+  depositAmount: number;
   depositDueDays: number;
   checkInTime: string;
   checkOutTime: string;
@@ -254,6 +257,12 @@ export function BookPage() {
                   </span>
                 </div>
               )}
+              {quote && quote.deposit > 0 && (
+                <div className="row between small" style={{ marginTop: -6 }}>
+                  <span className="muted">มัดจำหลังยืนยันการจอง</span>
+                  <span className="b num">{fmtBaht(quote.deposit)}</span>
+                </div>
+              )}
               <label className="row small" style={{ gap: 10, alignItems: 'flex-start', cursor: 'pointer' }}>
                 <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ width: 20, height: 20, marginTop: 3, flex: 'none' }} />
                 <span>ยินยอมให้โฮมสเตย์เก็บชื่อ เบอร์โทร และ LINE ID เพื่อติดต่อยืนยันการจองเท่านั้น (ขอลบข้อมูลได้ทุกเมื่อ)</span>
@@ -264,7 +273,7 @@ export function BookPage() {
                 {busy ? 'กำลังส่ง…' : 'ส่งคำขอจอง'}
               </button>
               <div className="small muted">
-                มัดจำ {info?.depositPct ?? 50}% ภายใน {info?.depositDueDays ?? 3} วันหลังยืนยัน (โอนธนาคาร / พร้อมเพย์) · ส่วนที่เหลือชำระวันเข้าพัก · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ 1 ครั้ง
+                {info ? depositRuleText(info, fmtBaht) : 'มัดจำ'} ภายใน {info?.depositDueDays ?? 3} วันหลังยืนยัน (โอนธนาคาร / พร้อมเพย์) · ส่วนที่เหลือชำระวันเข้าพัก · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ 1 ครั้ง
               </div>
             </div>
           </div>

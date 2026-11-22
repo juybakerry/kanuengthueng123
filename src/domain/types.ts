@@ -13,6 +13,8 @@ export type PayMethod = 'transfer' | 'promptpay' | 'cash';
 export type PaymentKind = 'deposit' | 'balance' | 'refund' | 'other';
 export type IssueStatus = 'open' | 'in_progress' | 'done';
 export type BookingMode = 'both' | 'room' | 'person';
+/** วิธีคิดมัดจำ: % ของยอดรวม · จำนวนเงินต่อการจอง · จำนวนเงินต่อคน */
+export type DepositMode = 'percent' | 'booking' | 'person';
 
 export interface Base {
   id: string;
@@ -33,7 +35,11 @@ export interface HomestayInfo {
 
 export interface Settings {
   pricePerPerson: Satang;
+  depositMode: DepositMode;
+  /** ใช้เมื่อ depositMode = 'percent' */
   depositPct: number;
+  /** ใช้เมื่อ depositMode = 'booking' | 'person' (สตางค์) — มัดจำไม่เกินยอดรวม */
+  depositAmount: Satang;
   depositDueDays: number;
   mealCost: Satang;
   housekeepingCost: Satang;
@@ -101,7 +107,10 @@ export interface Booking extends Base {
   extra: Satang;
   extraNote: string;
   total: Satang;
-  depositPct: number;
+  /** ยอดมัดจำของการจองนี้ (ตั้งตอนจอง แก้ได้) */
+  deposit: Satang;
+  /** รุ่นเก่า: มัดจำเป็น % (ใช้เมื่อไม่มี deposit) */
+  depositPct?: number;
   depositDueOn: ISODate;
   usesTransport: boolean;
   pickupPoint: string;

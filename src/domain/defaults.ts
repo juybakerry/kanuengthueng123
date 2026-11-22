@@ -3,7 +3,9 @@ import type { Channel, ExpenseCategory, IssueStatus, PayMethod, PayStatus, Payme
 
 export const DEFAULT_SETTINGS: Settings = {
   pricePerPerson: 85000,
+  depositMode: 'percent',
   depositPct: 50,
+  depositAmount: 100000,
   depositDueDays: 3,
   mealCost: 6000,
   housekeepingCost: 30000,

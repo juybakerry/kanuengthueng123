@@ -1,6 +1,7 @@
 /** ตรวจและทำความสะอาดข้อมูลที่ส่งมาจากแอปก่อนเขียนลงฐานข้อมูล (ฝั่งเซิร์ฟเวอร์ ไม่เชื่อข้อมูลจากเครื่อง) */
 import { HttpError } from './http';
 import { DEFAULT_SETTINGS } from '../src/domain/defaults';
+import { bookingDeposit } from '../src/domain/pricing';
 import type { Settings } from '../src/domain/types';
 
 type Obj = Record<string, unknown>;
@@ -118,6 +119,12 @@ export function sanitize(tbl: ClientTable, d: Obj): Obj {
 }
 
 function sanitizeBooking(d: Obj): Obj {
+  const b = sanitizeBookingRaw(d);
+  b.deposit = Math.min(b.deposit as number, b.total as number);
+  return b;
+}
+
+function sanitizeBookingRaw(d: Obj): Obj {
   const checkIn = date(d.checkIn, 'วันเข้าพัก');
   const checkOut = date(d.checkOut, 'วันออก');
   if (checkOut <= checkIn) bad('วันออกต้องหลังวันเข้าพัก');
@@ -145,7 +152,7 @@ function sanitizeBooking(d: Obj): Obj {
     extra: int(d.extra, 'รายการเพิ่ม', 0, 1e10),
     extraNote: str(d.extraNote, 200),
     total: int(d.total, 'ยอดรวม', 0, 1e11),
-    depositPct: num(d.depositPct, 'มัดจำ %', 0, 100),
+    deposit: d.deposit == null || d.deposit === '' ? bookingDeposit({ total: Number(d.total) || 0, depositPct: Number(d.depositPct ?? 50) } as never) : int(d.deposit, 'ยอดมัดจำ', 0, 1e11),
     depositDueOn: date(d.depositDueOn, 'กำหนดชำระมัดจำ'),
     usesTransport: bool(d.usesTransport),
     pickupPoint: str(d.pickupPoint, 200),
@@ -173,7 +180,9 @@ function sanitizeSettings(d: Obj): Settings {
   };
   return {
     pricePerPerson: int(d.pricePerPerson ?? D.pricePerPerson, 'ราคาต่อคน', 0, 1e9),
+    depositMode: oneOf(d.depositMode ?? D.depositMode, ['percent', 'booking', 'person'], 'วิธีคิดมัดจำ'),
     depositPct: num(d.depositPct ?? D.depositPct, 'มัดจำ %', 0, 100),
+    depositAmount: int(d.depositAmount ?? D.depositAmount, 'ยอดมัดจำ', 0, 1e9),
     depositDueDays: int(d.depositDueDays ?? D.depositDueDays, 'กำหนดชำระมัดจำ', 0, 60),
     mealCost: int(d.mealCost ?? D.mealCost, 'ค่าอาหาร', 0, 1e8),
     housekeepingCost: int(d.housekeepingCost ?? D.housekeepingCost, 'ค่าแม่บ้าน', 0, 1e8),

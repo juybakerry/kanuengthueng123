@@ -9,7 +9,7 @@ import { Chips, CloseBtn, Field, HalfCircle, IC, IC16, MoneyInput, Stepper, Togg
 import { addDays, addMonths, dayOfWeek, daysInclusive, endOfMonth, fmtDate, fmtMonth, fmtRange, nightsOf, startOfMonth, TH_DAYS_SHORT, todayISO } from '../domain/dates';
 import { fmtBaht } from '../domain/money';
 import { activeRooms, autoAllocate, checkBooking, dayFree, houseCapacity, minDayFree, minRoomFree, roomEmptyAllNights } from '../domain/capacity';
-import { depositOf, quote, totalFromNightly } from '../domain/pricing';
+import { bookingDeposit, depositFor, depositOf, depositRuleText, quote, totalFromNightly } from '../domain/pricing';
 import { CHANNEL_LABEL, METHOD_LABEL, ROOM_KIND_LABEL, STAFF_CHANNELS } from '../domain/defaults';
 import type { Booking, Channel, Customer, PayMethod, PayStatus, Satang } from '../domain/types';
 
@@ -48,6 +48,10 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
   const [extra, setExtra] = useState<Satang>(editing?.extra ?? 0);
   const [extraNote, setExtraNote] = useState(editing?.extraNote ?? '');
   const [showAdj, setShowAdj] = useState(!!(editing?.discount || editing?.extra));
+  // มัดจำ: เลือกได้ว่าเป็น % หรือจำนวนเงิน (ค่าเริ่มต้นตามตั้งค่า แก้เฉพาะการจองนี้ได้)
+  const [depMode, setDepMode] = useState<'percent' | 'amount'>(editing ? (typeof editing.deposit === 'number' ? 'amount' : 'percent') : st.depositMode === 'percent' ? 'percent' : 'amount');
+  const [depPctInput, setDepPctInput] = useState<number>(editing?.depositPct ?? st.depositPct);
+  const [depAmtInput, setDepAmtInput] = useState<Satang | null>(null);
   const [payStatus, setPayStatus] = useState<PayStatus>('unpaid');
   const [method, setMethod] = useState<PayMethod>('transfer');
   const [slip, setSlip] = useState<string | null>(null);
@@ -73,8 +77,8 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
   const q = checkIn && checkOut ? quote({ checkIn, checkOut, adults, children, discount, extra, bookedOn: today }, st, ds.priceRules) : null;
   const nightly = samePricing ? editing!.nightly : (q?.nightly ?? []);
   const total = nightly.length ? totalFromNightly(nightly, guests, discount, extra) : 0;
-  const depPct = editing?.depositPct ?? st.depositPct;
-  const deposit = depositOf(total, depPct);
+  const autoDeposit = editing && editing.total === total ? bookingDeposit(editing) : depositFor(total, guests, st);
+  const deposit = Math.min(total, depMode === 'percent' ? depositOf(total, depPctInput) : (depAmtInput ?? autoDeposit));
   const depositDueOn = editing?.depositDueOn ?? addDays(today, st.depositDueDays);
   const uniform = nightly.length > 0 && nightly.every((n) => n.price === nightly[0]!.price);
   const calc = !nightly.length ? '' : uniform ? `${fmtBaht(nightly[0]!.price)} × ${guests} คน × ${nightly.length} คืน` : `ค่าที่พัก ${nightly.length} คืน (มีราคาพิเศษ)`;
@@ -140,7 +144,6 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
         id: newId(),
         code: '',
         status: 'confirmed',
-        depositPct: st.depositPct,
         depositDueOn,
         mealCost: st.mealCost,
         transportCost: st.transportCost,
@@ -168,6 +171,7 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
       extra,
       extraNote: extraNote.trim(),
       total,
+      deposit,
       usesTransport,
       pickupPoint: usesTransport ? pickupPoint.trim() : '',
       pickupTime: usesTransport ? pickupTime : '',
@@ -470,6 +474,33 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
                   {fmtBaht(total)}
                 </span>
               </div>
+              <div className="field">
+                ยอดมัดจำ
+                <div className="row wrap" style={{ gap: 8 }}>
+                  <Chips value={depMode} onChange={setDepMode} options={[{ v: 'percent', label: 'เป็น %' }, { v: 'amount', label: 'เป็นจำนวนเงิน' }]} />
+                  {depMode === 'percent' ? (
+                    <input
+                      className="input money"
+                      inputMode="decimal"
+                      aria-label="มัดจำกี่เปอร์เซ็นต์"
+                      value={depPctInput}
+                      style={{ width: 96 }}
+                      onChange={(e) => {
+                        const n = parseFloat(e.target.value.replace(/[^\d.]/g, ''));
+                        setDepPctInput(Number.isFinite(n) ? Math.min(100, Math.max(0, n)) : 0);
+                      }}
+                    />
+                  ) : (
+                    <MoneyInput value={deposit} onChange={(v) => setDepAmtInput(v ?? 0)} ariaLabel="ยอดมัดจำ (บาท)" width={140} />
+                  )}
+                  <span className="grow right b num" style={{ fontSize: 17 }}>
+                    {fmtBaht(deposit)}
+                  </span>
+                </div>
+                <span className="small muted" style={{ fontWeight: 400 }}>
+                  ค่าตั้งต้น: {depositRuleText(st, fmtBaht)} (เปลี่ยนได้ที่ ตั้งค่า › ราคาและต้นทุน)
+                </span>
+              </div>
               {!editing ? (
                 <>
                   <div className="small b">สถานะการชำระเงิน</div>
@@ -477,7 +508,7 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
                     {(['unpaid', 'deposit', 'paid'] as PayStatus[]).map((p) => (
                       <button key={p} type="button" className="chip" aria-pressed={payStatus === p} onClick={() => setPayStatus(p)} style={payStatus === p ? { background: PILL[p].bg, color: PILL[p].fg } : undefined}>
                         {p === 'unpaid' ? <Circle {...IC16} /> : p === 'deposit' ? <HalfCircle /> : <Check {...IC16} />}
-                        {p === 'unpaid' ? 'ยังไม่ชำระ' : p === 'deposit' ? `มัดจำ ${depPct}%` : 'ชำระเต็มจำนวน'}
+                        {p === 'unpaid' ? 'ยังไม่ชำระ' : p === 'deposit' ? `มัดจำ ${fmtBaht(deposit)}` : 'ชำระเต็มจำนวน'}
                       </button>
                     ))}
                   </div>
@@ -525,7 +556,7 @@ export function BookingForm({ init }: { init: BookingFormInit }) {
                       <span className="b num">{fmtBaht(total - paidNow)}</span>
                     </div>
                     <div className="small muted">
-                      มัดจำ {depPct}% ({fmtBaht(deposit)}) ภายใน {st.depositDueDays} วัน ({fmtDate(depositDueOn)}) · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ {st.rescheduleLimit} ครั้ง
+                      มัดจำ {fmtBaht(deposit)} ภายใน {st.depositDueDays} วัน ({fmtDate(depositDueOn)}) · ยกเลิกไม่คืนมัดจำ · เลื่อนวันได้ {st.rescheduleLimit} ครั้ง
                     </div>
                   </div>
                 </>

@@ -12,8 +12,9 @@ import { qrDataUrl } from '../lib/share';
 import { addDays, fmtDate, fmtDateTime, fmtRange, todayISO } from '../domain/dates';
 import { fmtBaht } from '../domain/money';
 import { promptpayPayload, promptpayTarget } from '../domain/promptpay';
+import { depositFor } from '../domain/pricing';
 import { ROOM_KIND_LABEL } from '../domain/defaults';
-import type { BookingMode, Closure, PriceRule, Room, Settings, UserInfo } from '../domain/types';
+import type { BookingMode, Closure, DepositMode, PriceRule, Room, Settings, UserInfo } from '../domain/types';
 
 function Card({ title, children, desc }: { title: ReactNode; children: ReactNode; desc?: ReactNode }) {
   return (
@@ -82,7 +83,26 @@ export function SettingsScreen() {
           <ThemeCard />
           <Card title="ราคาและต้นทุน" desc="ค่าที่เปลี่ยนมีผลกับการจองใหม่เท่านั้น (การจองเดิมเก็บราคา ณ วันจอง)">
             <MoneyRow label="ราคาห้องพัก" unit="บาท / คน / คืน (รวมอาหาร 1 มื้อ)" value={draft.pricePerPerson} onChange={(v) => set('pricePerPerson', v)} />
-            <NumRow label="มัดจำ" unit="% ของยอดรวม" value={draft.depositPct} onChange={(v) => set('depositPct', v)} />
+            <div className="field">
+              มัดจำ
+              <Chips
+                value={draft.depositMode}
+                onChange={(v: DepositMode) => set('depositMode', v)}
+                options={[
+                  { v: 'percent', label: 'เป็น % ของยอดรวม' },
+                  { v: 'booking', label: 'จำนวนเงินต่อการจอง' },
+                  { v: 'person', label: 'จำนวนเงินต่อคน' },
+                ]}
+              />
+            </div>
+            {draft.depositMode === 'percent' ? (
+              <NumRow label="มัดจำ" unit="% ของยอดรวม (ปัดขึ้นเป็นบาท)" value={draft.depositPct} onChange={(v) => set('depositPct', v)} />
+            ) : (
+              <MoneyRow label="มัดจำ" unit={draft.depositMode === 'person' ? 'บาท / คน (ไม่เกินยอดรวม)' : 'บาท / การจอง (ไม่เกินยอดรวม)'} value={draft.depositAmount} onChange={(v) => set('depositAmount', v)} />
+            )}
+            <div className="small muted" style={{ marginTop: -4 }}>
+              ตัวอย่าง 10 คน 2 คืน (ยอด {fmtBaht(draft.pricePerPerson * 20)}): มัดจำ {fmtBaht(depositFor(draft.pricePerPerson * 20, 10, draft))} · แก้ยอดมัดจำเฉพาะการจองได้ในหน้าจอง
+            </div>
             <NumRow label="ชำระมัดจำภายใน" unit="วัน หลังวันจอง" value={draft.depositDueDays} max={60} onChange={(v) => set('depositDueDays', v)} />
             <MoneyRow label="ค่าอาหาร" unit="บาท / คน / คืน" value={draft.mealCost} onChange={(v) => set('mealCost', v)} />
             <MoneyRow label="ค่าแม่บ้าน" unit="บาท / วันที่มีแขก (ไม่ขึ้นกับจำนวนแขก)" value={draft.housekeepingCost} onChange={(v) => set('housekeepingCost', v)} />

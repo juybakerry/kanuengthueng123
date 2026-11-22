@@ -10,7 +10,7 @@ import { uuid } from './crypto';
 import { capacityCtx, getSettings, listTable, writeStmts } from './records';
 import { dayFree, houseCapacity, houseClosed } from '../src/domain/capacity';
 import { addDays, daysInclusive, fmtRange, todayISO } from '../src/domain/dates';
-import { dueOf, paidOf, payStatusOf, depositOf, quote } from '../src/domain/pricing';
+import { bookingDeposit, dueOf, paidOf, payStatusOf, quote } from '../src/domain/pricing';
 import { promptpayPayload } from '../src/domain/promptpay';
 import type { Booking, Payment, PriceRule } from '../src/domain/types';
 import { notifyAll } from './push';
@@ -25,7 +25,9 @@ export async function publicRoute(req: Request, env: Env, path: string, ctx: Exe
       {
         homestay: st.homestay,
         pricePerPerson: st.pricePerPerson,
+        depositMode: st.depositMode,
         depositPct: st.depositPct,
+        depositAmount: st.depositAmount,
         depositDueDays: st.depositDueDays,
         checkInTime: st.checkInTime,
         checkOutTime: st.checkOutTime,
@@ -72,7 +74,7 @@ export async function publicRoute(req: Request, env: Env, path: string, ctx: Exe
       const payments = await listTable<Payment>(env.DB, 'payments', `AND json_extract(data, '$.bookingId') = ?`, b.id);
       const paid = paidOf(b.id, payments);
       const due = dueOf(b.total, paid);
-      const deposit = depositOf(b.total, b.depositPct);
+      const deposit = bookingDeposit(b);
       const payNow = paid <= 0 ? deposit : due;
       return json({
         name: b.name,

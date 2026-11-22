@@ -56,7 +56,7 @@ const co = day(off + 2);
 const booking = (id, guests, roomAlloc, extra = {}) => ({
   name: 'กลุ่มทดสอบ', phone: '0812345678', lineId: '', customerId: null, checkIn: ci, checkOut: co, adults: guests, children: 0, channel: 'phone', status: 'confirmed',
   rooms: roomAlloc, nightly: [{ date: ci, price: 85000 }, { date: day(off + 1), price: 85000 }], discount: 0, extra: 0, extraNote: '', total: 85000 * guests * 2,
-  depositPct: 50, depositDueOn: day(3), usesTransport: true, pickupPoint: 'ขนส่งอาเขต', pickupTime: '12:00', mealCost: 6000, transportCost: 20000,
+  deposit: 85000 * guests, depositDueOn: day(3), usesTransport: true, pickupPoint: 'ขนส่งอาเขต', pickupTime: '12:00', mealCost: 6000, transportCost: 20000,
   allergies: '', notes: '', rescheduleCount: 0, cancelledOn: null, checkedInAt: null, checkedOutAt: null, surveyToken: '', createdBy: '', createdAt: '', code: '', ...extra,
 });
 

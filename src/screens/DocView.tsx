@@ -195,7 +195,7 @@ export function DocView({ id, kind: initKind }: { id: string; kind: 'confirm' | 
                 <div className="b num" style={{ fontSize: 20 }}>
                   {fmtBaht(qrAmount)}
                 </div>
-                <div className="muted">{v.paid <= 0 ? `มัดจำ ${b.depositPct}% ภายใน ${fmtDate(b.depositDueOn)}` : `ส่วนที่เหลือ ชำระวันเข้าพัก ${fmtDate(b.checkIn)}`}</div>
+                <div className="muted">{v.paid <= 0 ? `มัดจำ ${fmtBaht(v.deposit)} ภายใน ${fmtDate(b.depositDueOn)}` : `ส่วนที่เหลือ ชำระวันเข้าพัก ${fmtDate(b.checkIn)}`}</div>
               </div>
             </div>
           )}

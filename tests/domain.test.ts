@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { report, bookingCosts } from '../src/domain/costs';
 import { checkBooking, dayFree, autoAllocate } from '../src/domain/capacity';
-import { depositOf, payStatusOf, pricePerPersonFor, quote } from '../src/domain/pricing';
+import { bookingDeposit, depositFor, depositOf, payStatusOf, pricePerPersonFor, quote } from '../src/domain/pricing';
 import { addDays, fmtDate, fmtRange, nightsOf, todayISO } from '../src/domain/dates';
 import { fmtBaht, parseBaht } from '../src/domain/money';
 import { DEFAULT_ROOMS, DEFAULT_SETTINGS } from '../src/domain/defaults';
@@ -28,7 +28,7 @@ function mkBooking(over: Partial<Booking> & { checkIn: string; checkOut: string;
     extra: 0,
     extraNote: '',
     total: q.total,
-    depositPct: 50,
+    deposit: q.deposit,
     depositDueOn: q.depositDueOn,
     usesTransport: true,
     pickupPoint: '',
@@ -113,7 +113,23 @@ describe('ราคาพิเศษและมัดจำ', () => {
     expect(q.total).toBe((120000 + 150000) * 3);
     expect(q.depositDueOn).toBe('2026-12-04');
   });
-  it('มัดจำปัดขึ้นเป็นบาทเต็ม', () => {
+  it('มัดจำเป็นจำนวนเงิน ต่อคน / ต่อการจอง ไม่เกินยอดรวม', () => {
+    const m = (depositMode: 'percent' | 'booking' | 'person', depositAmount = 0, depositPct = 50) => ({ depositMode, depositAmount, depositPct });
+    expect(depositFor(1700000, 10, m('percent'))).toBe(850000);
+    expect(depositFor(85050, 1, m('percent'))).toBe(42600);
+    expect(depositFor(1700000, 10, m('person', 42500))).toBe(425000);
+    expect(depositFor(1700000, 10, m('booking', 100000))).toBe(100000);
+    expect(depositFor(85000, 1, m('booking', 100000))).toBe(85000);
+    expect(depositFor(85000, 1, m('booking', 0))).toBe(0);
+    const q = quote({ checkIn: '2026-12-05', checkOut: '2026-12-07', adults: 10, children: 0, bookedOn: '2026-12-01' }, S, []);
+    expect(q.deposit).toBe(850000);
+    expect(quote({ checkIn: '2026-12-05', checkOut: '2026-12-07', adults: 10, children: 0, bookedOn: '2026-12-01' }, { ...S, ...m('person', 50000) }, []).deposit).toBe(500000);
+  });
+  it('การจองรุ่นเก่าที่เก็บมัดจำเป็น %', () => {
+    expect(bookingDeposit({ total: 1700000, depositPct: 50 } as never)).toBe(850000);
+    expect(bookingDeposit({ total: 1700000, deposit: 300000 })).toBe(300000);
+  });
+  it('มัดจำปัดขึ้นเป็นบาทเต็ม (รุ่นเก่า)', () => {
     expect(depositOf(85050, 50)).toBe(42600);
     expect(depositOf(850000, 50)).toBe(425000);
   });

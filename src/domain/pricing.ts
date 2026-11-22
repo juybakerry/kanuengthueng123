@@ -5,7 +5,7 @@
  */
 import { addDays, nightsOf } from './dates';
 import { ceilBaht } from './money';
-import type { Booking, ISODate, NightPrice, PayStatus, Payment, PriceRule, Satang, Settings } from './types';
+import type { Booking, DepositMode, ISODate, NightPrice, PayStatus, Payment, PriceRule, Satang, Settings } from './types';
 
 export const guestsOf = (b: Pick<Booking, 'adults' | 'children'>) => b.adults + b.children;
 
@@ -65,7 +65,7 @@ export function quote(input: QuoteInput, settings: Settings, rules: PriceRule[])
     nightly,
     subtotal,
     total,
-    deposit: depositOf(total, settings.depositPct),
+    deposit: depositFor(total, guests, settings),
     depositDueOn: addDays(input.bookedOn, settings.depositDueDays),
   };
 }
@@ -75,6 +75,25 @@ export function totalFromNightly(nightly: NightPrice[], guests: number, discount
   return Math.max(0, nightly.reduce((s, n) => s + n.price * guests, 0) - discount + extra);
 }
 
+/** ยอดมัดจำตามที่ตั้งไว้: % ของยอดรวม (ปัดขึ้นเป็นบาท) หรือจำนวนเงินต่อการจอง/ต่อคน — ไม่เกินยอดรวม */
+export function depositFor(total: Satang, guests: number, s: { depositMode: DepositMode; depositPct: number; depositAmount: Satang }): Satang {
+  const amount = s.depositMode === 'percent' ? depositOf(total, s.depositPct) : s.depositMode === 'person' ? s.depositAmount * Math.max(0, guests) : s.depositAmount;
+  return Math.max(0, Math.min(total, amount));
+}
+
+/** ข้อความอธิบายกติกามัดจำ เช่น "มัดจำ 50%" / "มัดจำ ฿500 ต่อคน" */
+export function depositRuleText(s: { depositMode: DepositMode; depositPct: number; depositAmount: Satang }, fmt: (x: Satang) => string): string {
+  if (s.depositMode === 'percent') return `มัดจำ ${s.depositPct}%`;
+  return `มัดจำ ${fmt(s.depositAmount)} ${s.depositMode === 'person' ? 'ต่อคน' : 'ต่อการจอง'}`;
+}
+
+/** มัดจำของการจองที่บันทึกไว้ (การจองรุ่นเก่าที่เก็บเป็น % คำนวณจาก %) */
+export function bookingDeposit(b: Pick<Booking, 'total' | 'deposit' | 'depositPct'>): Satang {
+  if (typeof b.deposit === 'number') return Math.max(0, Math.min(b.total, b.deposit));
+  return depositOf(b.total, b.depositPct ?? 50);
+}
+
+/** รุ่นเก่า: มัดจำเป็น % ปัดขึ้นเป็นบาทเต็ม */
 export function depositOf(total: Satang, pct: number): Satang {
   return ceilBaht((total * pct) / 100);
 }
